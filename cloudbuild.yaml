@@ -1,0 +1,9 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+steps:
+    - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'asia-south1-docker.pkg.dev/project-10094705-9153-43d5-bb8/sep4th/golang-app:$SHORT_SHA', '.']
+    - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-south1-docker.pkg.dev/project-10094705-9153-43d5-bb8/sep4th/golang-app:$SHORT_SHA']
+    - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'golang-app', '--image', 'asia-south1-docker.pkg.dev/project-10094705-9153-43d5-bb8/sep4th/golang-app:$SHORT_SHA', '--region', 'asia-south1', '--allow-unauthenticated']
